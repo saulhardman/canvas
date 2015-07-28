@@ -1,0 +1,29 @@
+{
+  "name": "canvas",
+  "version": "0.0.0",
+  "description": "Another creative coding framework.",
+  "main": "./dist/canvas.js",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^5.8.14",
+    "babel-loader": "^5.3.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/saulhardman/canvas.git"
+  },
+  "keywords": [
+    "canvas",
+    "creative",
+    "animation"
+  ],
+  "author": "Saul Hardman <hello@iamsaul.co.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/saulhardman/canvas/issues"
+  },
+  "homepage": "https://github.com/saulhardman/canvas#readme"
+}

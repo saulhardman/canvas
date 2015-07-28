@@ -1,0 +1,26 @@
+{
+  "name": "canvas",
+  "version": "0.0.0",
+  "authors": [
+    "Saul Hardman <hello@iamsaul.co.uk>"
+  ],
+  "description": "Another creative coding framework.",
+  "main": "./src/canvas.js",
+  "keywords": [
+    "canvas",
+    "creative",
+    "animation"
+  ],
+  "license": "MIT",
+  "homepage": "http://github.com/saulhardman/canvas",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "lodash-amd": "~3.10.0"
+  }
+}
