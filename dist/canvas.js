@@ -60,11 +60,15 @@ var canvas =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _events = __webpack_require__(2);
+	var _vector = __webpack_require__(2);
+
+	var _vector2 = _interopRequireDefault(_vector);
+
+	var _events = __webpack_require__(5);
 
 	var _events2 = _interopRequireDefault(_events);
 
-	var _pointer = __webpack_require__(3);
+	var _pointer = __webpack_require__(6);
 
 	var _pointer2 = _interopRequireDefault(_pointer);
 
@@ -77,6 +81,7 @@ var canvas =
 	var _lodashLangIsFunction2 = _interopRequireDefault(_lodashLangIsFunction);
 
 	var canvas = {
+	  vector: _vector2['default'],
 	  defaults: {
 	    autoStart: true,
 	    autoClear: true,
@@ -359,60 +364,6 @@ var canvas =
 
 /***/ },
 /* 2 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports['default'] = {
-	  resize: {
-	    handler: 'onResize',
-	    element: window
-	  },
-	  visibilitychange: {
-	    handler: 'onVisibilityChange',
-	    element: document
-	  },
-	  keydown: {
-	    handler: 'onKeyDown',
-	    element: document
-	  },
-	  keyup: {
-	    handler: 'onKeyUp',
-	    element: document
-	  },
-	  mouseover: {
-	    handler: 'onMouseOver'
-	  },
-	  mousemove: {
-	    handler: 'onMouseMove'
-	  },
-	  mouseout: {
-	    handler: 'onMouseOut'
-	  },
-	  mousedown: {
-	    handler: 'onMouseDown'
-	  },
-	  mouseup: {
-	    handler: 'onMouseUp'
-	  }
-	};
-	module.exports = exports['default'];
-	// TODO: support touch events
-	// touchstart: {
-	//   handler: 'onTouchStart',
-	// },
-	// touchmove: {
-	//   handler: 'onTouchStart',
-	// },
-	// touchend: {
-	//   handler: 'onTouchEnd',
-	// },
-
-/***/ },
-/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -423,61 +374,7 @@ var canvas =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _vector = __webpack_require__(4);
-
-	var _vector2 = _interopRequireDefault(_vector);
-
-	var pointer = Object.assign(Object.create(_vector2['default']), {
-	  isDragging: false,
-	  origin: Object.create(_vector2['default']),
-	  delta: Object.create(_vector2['default']),
-	  startDragging: function startDragging(x, y) {
-	    this.isDragging = true;
-
-	    this.origin.set(x, y);
-	    this.delta.set(0, 0);
-
-	    return this;
-	  },
-	  stopDragging: function stopDragging(x, y) {
-	    this.isDragging = false;
-
-	    this.origin.clear();
-	    this.delta.clear();
-
-	    return this;
-	  },
-	  set: function set(x, y) {
-	    var delta;
-
-	    _vector2['default'].set.call(this, x, y);
-
-	    if (this.isDragging) {
-	      delta = this.get().subtract(this.origin);
-
-	      this.delta.set(delta.x, delta.y);
-	    }
-
-	    return this;
-	  }
-	});
-
-	exports['default'] = pointer;
-	module.exports = exports['default'];
-
-/***/ },
-/* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-	var _lodashLangIsNumber = __webpack_require__(5);
+	var _lodashLangIsNumber = __webpack_require__(3);
 
 	var _lodashLangIsNumber2 = _interopRequireDefault(_lodashLangIsNumber);
 
@@ -595,10 +492,10 @@ var canvas =
 	module.exports = exports['default'];
 
 /***/ },
-/* 5 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isObjectLike) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isObjectLike) {
 
 	  /** `Object#toString` result references. */
 	  var numberTag = '[object Number]';
@@ -643,7 +540,7 @@ var canvas =
 
 
 /***/ },
-/* 6 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -662,6 +559,114 @@ var canvas =
 	  return isObjectLike;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports['default'] = {
+	  resize: {
+	    handler: 'onResize',
+	    element: window
+	  },
+	  visibilitychange: {
+	    handler: 'onVisibilityChange',
+	    element: document
+	  },
+	  keydown: {
+	    handler: 'onKeyDown',
+	    element: document
+	  },
+	  keyup: {
+	    handler: 'onKeyUp',
+	    element: document
+	  },
+	  mouseover: {
+	    handler: 'onMouseOver'
+	  },
+	  mousemove: {
+	    handler: 'onMouseMove'
+	  },
+	  mouseout: {
+	    handler: 'onMouseOut'
+	  },
+	  mousedown: {
+	    handler: 'onMouseDown'
+	  },
+	  mouseup: {
+	    handler: 'onMouseUp'
+	  }
+	};
+	module.exports = exports['default'];
+	// TODO: support touch events
+	// touchstart: {
+	//   handler: 'onTouchStart',
+	// },
+	// touchmove: {
+	//   handler: 'onTouchStart',
+	// },
+	// touchend: {
+	//   handler: 'onTouchEnd',
+	// },
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+	var _vector = __webpack_require__(2);
+
+	var _vector2 = _interopRequireDefault(_vector);
+
+	var pointer = Object.assign(Object.create(_vector2['default']), {
+	  isDragging: false,
+	  origin: Object.create(_vector2['default']),
+	  delta: Object.create(_vector2['default']),
+	  startDragging: function startDragging(x, y) {
+	    this.isDragging = true;
+
+	    this.origin.set(x, y);
+	    this.delta.set(0, 0);
+
+	    return this;
+	  },
+	  stopDragging: function stopDragging(x, y) {
+	    this.isDragging = false;
+
+	    this.origin.clear();
+	    this.delta.clear();
+
+	    return this;
+	  },
+	  set: function set(x, y) {
+	    var delta;
+
+	    _vector2['default'].set.call(this, x, y);
+
+	    if (this.isDragging) {
+	      delta = this.get().subtract(this.origin);
+
+	      this.delta.set(delta.x, delta.y);
+	    }
+
+	    return this;
+	  }
+	});
+
+	exports['default'] = pointer;
+	module.exports = exports['default'];
 
 /***/ },
 /* 7 */
@@ -978,7 +983,7 @@ var canvas =
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18), __webpack_require__(6)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isFunction, isObjectLike) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(18), __webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isFunction, isObjectLike) {
 
 	  /** Used to detect host constructors (Safari > 5). */
 	  var reIsHostCtor = /^\[object .+?Constructor\]$/;
@@ -1219,7 +1224,7 @@ var canvas =
 /* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(6)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isArrayLike, isObjectLike) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isArrayLike, isObjectLike) {
 
 	  /** Used for native method references. */
 	  var objectProto = Object.prototype;
@@ -1259,7 +1264,7 @@ var canvas =
 /* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(16), __webpack_require__(22), __webpack_require__(6)], __WEBPACK_AMD_DEFINE_RESULT__ = function(getNative, isLength, isObjectLike) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(16), __webpack_require__(22), __webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function(getNative, isLength, isObjectLike) {
 
 	  /** `Object#toString` result references. */
 	  var arrayTag = '[object Array]';

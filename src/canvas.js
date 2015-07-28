@@ -1,9 +1,11 @@
+import vector from './vector';
 import events from './events';
 import pointer from './pointer';
 import forEach from 'lodash/collection/forEach';
 import isFunction from 'lodash/lang/isFunction';
 
 var canvas = {
+  vector: vector,
   defaults: {
     autoStart: true,
     autoClear: true,
