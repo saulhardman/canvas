@@ -1,16 +1,17 @@
 var path = require('path');
 var webpack = require('webpack');
 var isDev = process.argv.slice(2).indexOf('--dev') > -1;
-var plugins = [
-  new webpack.ResolverPlugin(
-    new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('bower.json', ['main'])
-  ),
-];
+var isPrd = process.argv.slice(2).indexOf('--prd') > -1;
+var plugins = [];
 var entry = { app: [ './src/canvas.js' ] };
 
 if (isDev) {
+  console.log('isDev');
+
   entry.app.push('webpack/hot/dev-server');
-} else {
+} else if (isPrd) {
+  console.log('isPrd');
+
   plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }));
 }
 
@@ -18,9 +19,8 @@ module.exports = {
   entry: entry,
   output: {
     path: './dist',
-    filename: isDev ? 'canvas.js' : 'canvas.min.js',
+    filename: isPrd ? 'canvas.min.js' : 'canvas.js',
     libraryTarget: 'umd',
-    library: 'canvas',
   },
   module: {
     loaders: [

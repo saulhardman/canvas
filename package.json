@@ -1,6 +1,6 @@
 {
   "name": "canvas",
-  "version": "0.0.0",
+  "version": "0.0.3-alpha",
   "description": "Another creative coding framework.",
   "main": "./dist/canvas.js",
   "dependencies": {},
