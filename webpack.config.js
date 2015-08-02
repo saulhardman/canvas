@@ -6,12 +6,8 @@ var plugins = [];
 var entry = { app: [ './src/canvas.js' ] };
 
 if (isDev) {
-  console.log('isDev');
-
   entry.app.push('webpack/hot/dev-server');
 } else if (isPrd) {
-  console.log('isPrd');
-
   plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }));
 }
 
