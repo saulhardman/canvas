@@ -1,9 +1,12 @@
+import assign from 'lodash/object/assign';
+import create from 'lodash/object/create';
+
 import vector from './vector';
 
-var pointer = Object.assign(Object.create(vector), {
+var pointer = assign(create(vector), {
   isDragging: false,
-  origin: Object.create(vector),
-  delta: Object.create(vector),
+  origin: create(vector),
+  delta: create(vector),
   startDragging(x, y) {
     this.isDragging = true;
 

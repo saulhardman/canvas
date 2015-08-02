@@ -1,3 +1,5 @@
+import create from 'lodash/object/create';
+
 import isNumber from 'lodash/lang/isNumber';
 
 var vector = {
@@ -8,7 +10,7 @@ var vector = {
     return this;
   },
   get() {
-    return Object.create(vector).set(this.x, this.y);
+    return create(vector).set(this.x, this.y);
   },
   clear() {
     delete this.x;

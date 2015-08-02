@@ -69,23 +69,31 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodashCollectionForEach = __webpack_require__(2);
+	var _lodashObjectAssign = __webpack_require__(2);
+
+	var _lodashObjectAssign2 = _interopRequireDefault(_lodashObjectAssign);
+
+	var _lodashObjectCreate = __webpack_require__(26);
+
+	var _lodashObjectCreate2 = _interopRequireDefault(_lodashObjectCreate);
+
+	var _lodashCollectionForEach = __webpack_require__(28);
 
 	var _lodashCollectionForEach2 = _interopRequireDefault(_lodashCollectionForEach);
 
-	var _lodashLangIsFunction = __webpack_require__(13);
+	var _lodashLangIsFunction = __webpack_require__(7);
 
 	var _lodashLangIsFunction2 = _interopRequireDefault(_lodashLangIsFunction);
 
-	var _events = __webpack_require__(28);
+	var _events = __webpack_require__(37);
 
 	var _events2 = _interopRequireDefault(_events);
 
-	var _pointer = __webpack_require__(29);
+	var _pointer = __webpack_require__(38);
 
 	var _pointer2 = _interopRequireDefault(_pointer);
 
-	var _vector = __webpack_require__(30);
+	var _vector = __webpack_require__(39);
 
 	var _vector2 = _interopRequireDefault(_vector);
 
@@ -105,13 +113,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
 	    this.element = element;
-	    this.settings = Object.assign(this.defaults, options);
+	    this.settings = (0, _lodashObjectAssign2['default'])(this.defaults, options);
 	    this.ratio = window.devicePixelRatio || 1;
 	    this.isRetina = this.ratio > 1;
 	    this.isPaused = false;
 	    this.isRunning = false;
 	    this.context = this.element.getContext('2d', this.settings.contextAttributes);
-	    this.pointer = Object.create(_pointer2['default']);
+	    this.pointer = (0, _lodashObjectCreate2['default'])(_pointer2['default']);
 	    this.width = this.element.width;
 	    this.height = this.element.height;
 
@@ -377,41 +385,47 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(3), __webpack_require__(4), __webpack_require__(25)], __WEBPACK_AMD_DEFINE_RESULT__ = function(arrayEach, baseEach, createForEach) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(3), __webpack_require__(19), __webpack_require__(21)], __WEBPACK_AMD_DEFINE_RESULT__ = function(assignWith, baseAssign, createAssigner) {
 
 	  /**
-	   * Iterates over elements of `collection` invoking `iteratee` for each element.
-	   * The `iteratee` is bound to `thisArg` and invoked with three arguments:
-	   * (value, index|key, collection). Iteratee functions may exit iteration early
-	   * by explicitly returning `false`.
+	   * Assigns own enumerable properties of source object(s) to the destination
+	   * object. Subsequent sources overwrite property assignments of previous sources.
+	   * If `customizer` is provided it is invoked to produce the assigned values.
+	   * The `customizer` is bound to `thisArg` and invoked with five arguments:
+	   * (objectValue, sourceValue, key, object, source).
 	   *
-	   * **Note:** As with other "Collections" methods, objects with a "length" property
-	   * are iterated like arrays. To avoid this behavior `_.forIn` or `_.forOwn`
-	   * may be used for object iteration.
+	   * **Note:** This method mutates `object` and is based on
+	   * [`Object.assign`](http://ecma-international.org/ecma-262/6.0/#sec-object.assign).
 	   *
 	   * @static
 	   * @memberOf _
-	   * @alias each
-	   * @category Collection
-	   * @param {Array|Object|string} collection The collection to iterate over.
-	   * @param {Function} [iteratee=_.identity] The function invoked per iteration.
-	   * @param {*} [thisArg] The `this` binding of `iteratee`.
-	   * @returns {Array|Object|string} Returns `collection`.
+	   * @alias extend
+	   * @category Object
+	   * @param {Object} object The destination object.
+	   * @param {...Object} [sources] The source objects.
+	   * @param {Function} [customizer] The function to customize assigned values.
+	   * @param {*} [thisArg] The `this` binding of `customizer`.
+	   * @returns {Object} Returns `object`.
 	   * @example
 	   *
-	   * _([1, 2]).forEach(function(n) {
-	   *   console.log(n);
-	   * }).value();
-	   * // => logs each value from left to right and returns the array
+	   * _.assign({ 'user': 'barney' }, { 'age': 40 }, { 'user': 'fred' });
+	   * // => { 'user': 'fred', 'age': 40 }
 	   *
-	   * _.forEach({ 'a': 1, 'b': 2 }, function(n, key) {
-	   *   console.log(n, key);
+	   * // using a customizer callback
+	   * var defaults = _.partialRight(_.assign, function(value, other) {
+	   *   return _.isUndefined(value) ? other : value;
 	   * });
-	   * // => logs each value-key pair and returns the object (iteration order is not guaranteed)
+	   *
+	   * defaults({ 'user': 'barney' }, { 'age': 36 }, { 'user': 'fred' });
+	   * // => { 'user': 'barney', 'age': 36 }
 	   */
-	  var forEach = createForEach(arrayEach, baseEach);
+	  var assign = createAssigner(function(object, source, customizer) {
+	    return customizer
+	      ? assignWith(object, source, customizer)
+	      : baseAssign(object, source);
+	  });
 
-	  return forEach;
+	  return assign;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
@@ -419,30 +433,41 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function(keys) {
+
+	  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
+	  var undefined;
 
 	  /**
-	   * A specialized version of `_.forEach` for arrays without support for callback
-	   * shorthands and `this` binding.
+	   * A specialized version of `_.assign` for customizing assigned values without
+	   * support for argument juggling, multiple sources, and `this` binding `customizer`
+	   * functions.
 	   *
 	   * @private
-	   * @param {Array} array The array to iterate over.
-	   * @param {Function} iteratee The function invoked per iteration.
-	   * @returns {Array} Returns `array`.
+	   * @param {Object} object The destination object.
+	   * @param {Object} source The source object.
+	   * @param {Function} customizer The function to customize assigned values.
+	   * @returns {Object} Returns `object`.
 	   */
-	  function arrayEach(array, iteratee) {
+	  function assignWith(object, source, customizer) {
 	    var index = -1,
-	        length = array.length;
+	        props = keys(source),
+	        length = props.length;
 
 	    while (++index < length) {
-	      if (iteratee(array[index], index, array) === false) {
-	        break;
+	      var key = props[index],
+	          value = object[key],
+	          result = customizer(value, source[key], key, object, source);
+
+	      if ((result === result ? (result !== value) : (value === value)) ||
+	          (value === undefined && !(key in object))) {
+	        object[key] = result;
 	      }
 	    }
-	    return array;
+	    return object;
 	  }
 
-	  return arrayEach;
+	  return assignWith;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
@@ -450,167 +475,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5), __webpack_require__(24)], __WEBPACK_AMD_DEFINE_RESULT__ = function(baseForOwn, createBaseEach) {
-
-	  /**
-	   * The base implementation of `_.forEach` without support for callback
-	   * shorthands and `this` binding.
-	   *
-	   * @private
-	   * @param {Array|Object|string} collection The collection to iterate over.
-	   * @param {Function} iteratee The function invoked per iteration.
-	   * @returns {Array|Object|string} Returns `collection`.
-	   */
-	  var baseEach = createBaseEach(baseForOwn);
-
-	  return baseEach;
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6), __webpack_require__(10)], __WEBPACK_AMD_DEFINE_RESULT__ = function(baseFor, keys) {
-
-	  /**
-	   * The base implementation of `_.forOwn` without support for callback
-	   * shorthands and `this` binding.
-	   *
-	   * @private
-	   * @param {Object} object The object to iterate over.
-	   * @param {Function} iteratee The function invoked per iteration.
-	   * @returns {Object} Returns `object`.
-	   */
-	  function baseForOwn(object, iteratee) {
-	    return baseFor(object, iteratee, keys);
-	  }
-
-	  return baseForOwn;
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 6 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(7)], __WEBPACK_AMD_DEFINE_RESULT__ = function(createBaseFor) {
-
-	  /**
-	   * The base implementation of `baseForIn` and `baseForOwn` which iterates
-	   * over `object` properties returned by `keysFunc` invoking `iteratee` for
-	   * each property. Iteratee functions may exit iteration early by explicitly
-	   * returning `false`.
-	   *
-	   * @private
-	   * @param {Object} object The object to iterate over.
-	   * @param {Function} iteratee The function invoked per iteration.
-	   * @param {Function} keysFunc The function to get the keys of `object`.
-	   * @returns {Object} Returns `object`.
-	   */
-	  var baseFor = createBaseFor();
-
-	  return baseFor;
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 7 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(8)], __WEBPACK_AMD_DEFINE_RESULT__ = function(toObject) {
-
-	  /**
-	   * Creates a base function for `_.forIn` or `_.forInRight`.
-	   *
-	   * @private
-	   * @param {boolean} [fromRight] Specify iterating from right to left.
-	   * @returns {Function} Returns the new base function.
-	   */
-	  function createBaseFor(fromRight) {
-	    return function(object, iteratee, keysFunc) {
-	      var iterable = toObject(object),
-	          props = keysFunc(object),
-	          length = props.length,
-	          index = fromRight ? length : -1;
-
-	      while ((fromRight ? index-- : ++index < length)) {
-	        var key = props[index];
-	        if (iteratee(iterable[key], key, iterable) === false) {
-	          break;
-	        }
-	      }
-	      return object;
-	    };
-	  }
-
-	  return createBaseFor;
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(9)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isObject) {
-
-	  /**
-	   * Converts `value` to an object if it's not one.
-	   *
-	   * @private
-	   * @param {*} value The value to process.
-	   * @returns {Object} Returns the object.
-	   */
-	  function toObject(value) {
-	    return isObject(value) ? value : Object(value);
-	  }
-
-	  return toObject;
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
-
-	  /**
-	   * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
-	   * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
-	   *
-	   * @static
-	   * @memberOf _
-	   * @category Lang
-	   * @param {*} value The value to check.
-	   * @returns {boolean} Returns `true` if `value` is an object, else `false`.
-	   * @example
-	   *
-	   * _.isObject({});
-	   * // => true
-	   *
-	   * _.isObject([1, 2, 3]);
-	   * // => true
-	   *
-	   * _.isObject(1);
-	   * // => false
-	   */
-	  function isObject(value) {
-	    // Avoid a V8 JIT bug in Chrome 19-20.
-	    // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
-	    var type = typeof value;
-	    return !!value && (type == 'object' || type == 'function');
-	  }
-
-	  return isObject;
-	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11), __webpack_require__(15), __webpack_require__(9), __webpack_require__(19)], __WEBPACK_AMD_DEFINE_RESULT__ = function(getNative, isArrayLike, isObject, shimKeys) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5), __webpack_require__(10), __webpack_require__(8), __webpack_require__(14)], __WEBPACK_AMD_DEFINE_RESULT__ = function(getNative, isArrayLike, isObject, shimKeys) {
 
 	  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
 	  var undefined;
@@ -659,10 +524,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 11 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(12)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isNative) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isNative) {
 
 	  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
 	  var undefined;
@@ -685,10 +550,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(13), __webpack_require__(14)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isFunction, isObjectLike) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(7), __webpack_require__(9)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isFunction, isObjectLike) {
 
 	  /** Used to detect host constructors (Safari > 5). */
 	  var reIsHostCtor = /^\[object .+?Constructor\]$/;
@@ -739,10 +604,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(9)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isObject) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(8)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isObject) {
 
 	  /** `Object#toString` result references. */
 	  var funcTag = '[object Function]';
@@ -784,7 +649,44 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
+
+	  /**
+	   * Checks if `value` is the [language type](https://es5.github.io/#x8) of `Object`.
+	   * (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+	   *
+	   * @static
+	   * @memberOf _
+	   * @category Lang
+	   * @param {*} value The value to check.
+	   * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+	   * @example
+	   *
+	   * _.isObject({});
+	   * // => true
+	   *
+	   * _.isObject([1, 2, 3]);
+	   * // => true
+	   *
+	   * _.isObject(1);
+	   * // => false
+	   */
+	  function isObject(value) {
+	    // Avoid a V8 JIT bug in Chrome 19-20.
+	    // See https://code.google.com/p/v8/issues/detail?id=2291 for more details.
+	    var type = typeof value;
+	    return !!value && (type == 'object' || type == 'function');
+	  }
+
+	  return isObject;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -805,10 +707,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 15 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(16), __webpack_require__(18)], __WEBPACK_AMD_DEFINE_RESULT__ = function(getLength, isLength) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11), __webpack_require__(13)], __WEBPACK_AMD_DEFINE_RESULT__ = function(getLength, isLength) {
 
 	  /**
 	   * Checks if `value` is array-like.
@@ -826,10 +728,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(17)], __WEBPACK_AMD_DEFINE_RESULT__ = function(baseProperty) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(12)], __WEBPACK_AMD_DEFINE_RESULT__ = function(baseProperty) {
 
 	  /**
 	   * Gets the "length" property value of `object`.
@@ -848,7 +750,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -874,7 +776,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -903,10 +805,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 19 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(20), __webpack_require__(21), __webpack_require__(22), __webpack_require__(18), __webpack_require__(23)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isArguments, isArray, isIndex, isLength, keysIn) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(15), __webpack_require__(16), __webpack_require__(17), __webpack_require__(13), __webpack_require__(18)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isArguments, isArray, isIndex, isLength, keysIn) {
 
 	  /** Used for native method references. */
 	  var objectProto = Object.prototype;
@@ -947,10 +849,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(15), __webpack_require__(14)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isArrayLike, isObjectLike) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(10), __webpack_require__(9)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isArrayLike, isObjectLike) {
 
 	  /** Used for native method references. */
 	  var objectProto = Object.prototype;
@@ -987,10 +889,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 21 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11), __webpack_require__(18), __webpack_require__(14)], __WEBPACK_AMD_DEFINE_RESULT__ = function(getNative, isLength, isObjectLike) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5), __webpack_require__(13), __webpack_require__(9)], __WEBPACK_AMD_DEFINE_RESULT__ = function(getNative, isLength, isObjectLike) {
 
 	  /** `Object#toString` result references. */
 	  var arrayTag = '[object Array]';
@@ -1032,7 +934,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -1065,10 +967,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(20), __webpack_require__(21), __webpack_require__(22), __webpack_require__(18), __webpack_require__(9)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isArguments, isArray, isIndex, isLength, isObject) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(15), __webpack_require__(16), __webpack_require__(17), __webpack_require__(13), __webpack_require__(8)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isArguments, isArray, isIndex, isLength, isObject) {
 
 	  /** Used for native method references. */
 	  var objectProto = Object.prototype;
@@ -1132,75 +1034,116 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(16), __webpack_require__(18), __webpack_require__(8)], __WEBPACK_AMD_DEFINE_RESULT__ = function(getLength, isLength, toObject) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(20), __webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function(baseCopy, keys) {
 
 	  /**
-	   * Creates a `baseEach` or `baseEachRight` function.
+	   * The base implementation of `_.assign` without support for argument juggling,
+	   * multiple sources, and `customizer` functions.
 	   *
 	   * @private
-	   * @param {Function} eachFunc The function to iterate over a collection.
-	   * @param {boolean} [fromRight] Specify iterating from right to left.
-	   * @returns {Function} Returns the new base function.
+	   * @param {Object} object The destination object.
+	   * @param {Object} source The source object.
+	   * @returns {Object} Returns `object`.
 	   */
-	  function createBaseEach(eachFunc, fromRight) {
-	    return function(collection, iteratee) {
-	      var length = collection ? getLength(collection) : 0;
-	      if (!isLength(length)) {
-	        return eachFunc(collection, iteratee);
-	      }
-	      var index = fromRight ? length : -1,
-	          iterable = toObject(collection);
-
-	      while ((fromRight ? index-- : ++index < length)) {
-	        if (iteratee(iterable[index], index, iterable) === false) {
-	          break;
-	        }
-	      }
-	      return collection;
-	    };
+	  function baseAssign(object, source) {
+	    return source == null
+	      ? object
+	      : baseCopy(source, keys(source), object);
 	  }
 
-	  return createBaseEach;
+	  return baseAssign;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
 /***/ },
-/* 25 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(26), __webpack_require__(21)], __WEBPACK_AMD_DEFINE_RESULT__ = function(bindCallback, isArray) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
+
+	  /**
+	   * Copies properties of `source` to `object`.
+	   *
+	   * @private
+	   * @param {Object} source The object to copy properties from.
+	   * @param {Array} props The property names to copy.
+	   * @param {Object} [object={}] The object to copy properties to.
+	   * @returns {Object} Returns `object`.
+	   */
+	  function baseCopy(source, props, object) {
+	    object || (object = {});
+
+	    var index = -1,
+	        length = props.length;
+
+	    while (++index < length) {
+	      var key = props[index];
+	      object[key] = source[key];
+	    }
+	    return object;
+	  }
+
+	  return baseCopy;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(22), __webpack_require__(24), __webpack_require__(25)], __WEBPACK_AMD_DEFINE_RESULT__ = function(bindCallback, isIterateeCall, restParam) {
 
 	  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
 	  var undefined;
 
 	  /**
-	   * Creates a function for `_.forEach` or `_.forEachRight`.
+	   * Creates a `_.assign`, `_.defaults`, or `_.merge` function.
 	   *
 	   * @private
-	   * @param {Function} arrayFunc The function to iterate over an array.
-	   * @param {Function} eachFunc The function to iterate over a collection.
-	   * @returns {Function} Returns the new each function.
+	   * @param {Function} assigner The function to assign values.
+	   * @returns {Function} Returns the new assigner function.
 	   */
-	  function createForEach(arrayFunc, eachFunc) {
-	    return function(collection, iteratee, thisArg) {
-	      return (typeof iteratee == 'function' && thisArg === undefined && isArray(collection))
-	        ? arrayFunc(collection, iteratee)
-	        : eachFunc(collection, bindCallback(iteratee, thisArg, 3));
-	    };
+	  function createAssigner(assigner) {
+	    return restParam(function(object, sources) {
+	      var index = -1,
+	          length = object == null ? 0 : sources.length,
+	          customizer = length > 2 ? sources[length - 2] : undefined,
+	          guard = length > 2 ? sources[2] : undefined,
+	          thisArg = length > 1 ? sources[length - 1] : undefined;
+
+	      if (typeof customizer == 'function') {
+	        customizer = bindCallback(customizer, thisArg, 5);
+	        length -= 2;
+	      } else {
+	        customizer = typeof thisArg == 'function' ? thisArg : undefined;
+	        length -= (customizer ? 1 : 0);
+	      }
+	      if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+	        customizer = length < 3 ? undefined : customizer;
+	        length = 1;
+	      }
+	      while (++index < length) {
+	        var source = sources[index];
+	        if (source) {
+	          assigner(object, source, customizer);
+	        }
+	      }
+	      return object;
+	    });
 	  }
 
-	  return createForEach;
+	  return createAssigner;
 	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 
 /***/ },
-/* 26 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(27)], __WEBPACK_AMD_DEFINE_RESULT__ = function(identity) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(23)], __WEBPACK_AMD_DEFINE_RESULT__ = function(identity) {
 
 	  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
 	  var undefined;
@@ -1246,7 +1189,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 27 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
@@ -1275,7 +1218,459 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(10), __webpack_require__(17), __webpack_require__(8)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isArrayLike, isIndex, isObject) {
+
+	  /**
+	   * Checks if the provided arguments are from an iteratee call.
+	   *
+	   * @private
+	   * @param {*} value The potential iteratee value argument.
+	   * @param {*} index The potential iteratee index or key argument.
+	   * @param {*} object The potential iteratee object argument.
+	   * @returns {boolean} Returns `true` if the arguments are from an iteratee call, else `false`.
+	   */
+	  function isIterateeCall(value, index, object) {
+	    if (!isObject(object)) {
+	      return false;
+	    }
+	    var type = typeof index;
+	    if (type == 'number'
+	        ? (isArrayLike(object) && isIndex(index, object.length))
+	        : (type == 'string' && index in object)) {
+	      var other = object[index];
+	      return value === value ? (value === other) : (other !== other);
+	    }
+	    return false;
+	  }
+
+	  return isIterateeCall;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 25 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
+
+	  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
+	  var undefined;
+
+	  /** Used as the `TypeError` message for "Functions" methods. */
+	  var FUNC_ERROR_TEXT = 'Expected a function';
+
+	  /* Native method references for those with the same name as other `lodash` methods. */
+	  var nativeMax = Math.max;
+
+	  /**
+	   * Creates a function that invokes `func` with the `this` binding of the
+	   * created function and arguments from `start` and beyond provided as an array.
+	   *
+	   * **Note:** This method is based on the [rest parameter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters).
+	   *
+	   * @static
+	   * @memberOf _
+	   * @category Function
+	   * @param {Function} func The function to apply a rest parameter to.
+	   * @param {number} [start=func.length-1] The start position of the rest parameter.
+	   * @returns {Function} Returns the new function.
+	   * @example
+	   *
+	   * var say = _.restParam(function(what, names) {
+	   *   return what + ' ' + _.initial(names).join(', ') +
+	   *     (_.size(names) > 1 ? ', & ' : '') + _.last(names);
+	   * });
+	   *
+	   * say('hello', 'fred', 'barney', 'pebbles');
+	   * // => 'hello fred, barney, & pebbles'
+	   */
+	  function restParam(func, start) {
+	    if (typeof func != 'function') {
+	      throw new TypeError(FUNC_ERROR_TEXT);
+	    }
+	    start = nativeMax(start === undefined ? (func.length - 1) : (+start || 0), 0);
+	    return function() {
+	      var args = arguments,
+	          index = -1,
+	          length = nativeMax(args.length - start, 0),
+	          rest = Array(length);
+
+	      while (++index < length) {
+	        rest[index] = args[start + index];
+	      }
+	      switch (start) {
+	        case 0: return func.call(this, rest);
+	        case 1: return func.call(this, args[0], rest);
+	        case 2: return func.call(this, args[0], args[1], rest);
+	      }
+	      var otherArgs = Array(start + 1);
+	      index = -1;
+	      while (++index < start) {
+	        otherArgs[index] = args[index];
+	      }
+	      otherArgs[start] = rest;
+	      return func.apply(this, otherArgs);
+	    };
+	  }
+
+	  return restParam;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(19), __webpack_require__(27), __webpack_require__(24)], __WEBPACK_AMD_DEFINE_RESULT__ = function(baseAssign, baseCreate, isIterateeCall) {
+
+	  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
+	  var undefined;
+
+	  /**
+	   * Creates an object that inherits from the given `prototype` object. If a
+	   * `properties` object is provided its own enumerable properties are assigned
+	   * to the created object.
+	   *
+	   * @static
+	   * @memberOf _
+	   * @category Object
+	   * @param {Object} prototype The object to inherit from.
+	   * @param {Object} [properties] The properties to assign to the object.
+	   * @param- {Object} [guard] Enables use as a callback for functions like `_.map`.
+	   * @returns {Object} Returns the new object.
+	   * @example
+	   *
+	   * function Shape() {
+	   *   this.x = 0;
+	   *   this.y = 0;
+	   * }
+	   *
+	   * function Circle() {
+	   *   Shape.call(this);
+	   * }
+	   *
+	   * Circle.prototype = _.create(Shape.prototype, {
+	   *   'constructor': Circle
+	   * });
+	   *
+	   * var circle = new Circle;
+	   * circle instanceof Circle;
+	   * // => true
+	   *
+	   * circle instanceof Shape;
+	   * // => true
+	   */
+	  function create(prototype, properties, guard) {
+	    var result = baseCreate(prototype);
+	    if (guard && isIterateeCall(prototype, properties, guard)) {
+	      properties = undefined;
+	    }
+	    return properties ? baseAssign(result, properties) : result;
+	  }
+
+	  return create;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(8)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isObject) {
+
+	  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
+	  var undefined;
+
+	  /**
+	   * The base implementation of `_.create` without support for assigning
+	   * properties to the created object.
+	   *
+	   * @private
+	   * @param {Object} prototype The object to inherit from.
+	   * @returns {Object} Returns the new object.
+	   */
+	  var baseCreate = (function() {
+	    function object() {}
+	    return function(prototype) {
+	      if (isObject(prototype)) {
+	        object.prototype = prototype;
+	        var result = new object;
+	        object.prototype = undefined;
+	      }
+	      return result || {};
+	    };
+	  }());
+
+	  return baseCreate;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
 /* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(29), __webpack_require__(30), __webpack_require__(36)], __WEBPACK_AMD_DEFINE_RESULT__ = function(arrayEach, baseEach, createForEach) {
+
+	  /**
+	   * Iterates over elements of `collection` invoking `iteratee` for each element.
+	   * The `iteratee` is bound to `thisArg` and invoked with three arguments:
+	   * (value, index|key, collection). Iteratee functions may exit iteration early
+	   * by explicitly returning `false`.
+	   *
+	   * **Note:** As with other "Collections" methods, objects with a "length" property
+	   * are iterated like arrays. To avoid this behavior `_.forIn` or `_.forOwn`
+	   * may be used for object iteration.
+	   *
+	   * @static
+	   * @memberOf _
+	   * @alias each
+	   * @category Collection
+	   * @param {Array|Object|string} collection The collection to iterate over.
+	   * @param {Function} [iteratee=_.identity] The function invoked per iteration.
+	   * @param {*} [thisArg] The `this` binding of `iteratee`.
+	   * @returns {Array|Object|string} Returns `collection`.
+	   * @example
+	   *
+	   * _([1, 2]).forEach(function(n) {
+	   *   console.log(n);
+	   * }).value();
+	   * // => logs each value from left to right and returns the array
+	   *
+	   * _.forEach({ 'a': 1, 'b': 2 }, function(n, key) {
+	   *   console.log(n, key);
+	   * });
+	   * // => logs each value-key pair and returns the object (iteration order is not guaranteed)
+	   */
+	  var forEach = createForEach(arrayEach, baseEach);
+
+	  return forEach;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_RESULT__ = function() {
+
+	  /**
+	   * A specialized version of `_.forEach` for arrays without support for callback
+	   * shorthands and `this` binding.
+	   *
+	   * @private
+	   * @param {Array} array The array to iterate over.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @returns {Array} Returns `array`.
+	   */
+	  function arrayEach(array, iteratee) {
+	    var index = -1,
+	        length = array.length;
+
+	    while (++index < length) {
+	      if (iteratee(array[index], index, array) === false) {
+	        break;
+	      }
+	    }
+	    return array;
+	  }
+
+	  return arrayEach;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(31), __webpack_require__(35)], __WEBPACK_AMD_DEFINE_RESULT__ = function(baseForOwn, createBaseEach) {
+
+	  /**
+	   * The base implementation of `_.forEach` without support for callback
+	   * shorthands and `this` binding.
+	   *
+	   * @private
+	   * @param {Array|Object|string} collection The collection to iterate over.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @returns {Array|Object|string} Returns `collection`.
+	   */
+	  var baseEach = createBaseEach(baseForOwn);
+
+	  return baseEach;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(32), __webpack_require__(4)], __WEBPACK_AMD_DEFINE_RESULT__ = function(baseFor, keys) {
+
+	  /**
+	   * The base implementation of `_.forOwn` without support for callback
+	   * shorthands and `this` binding.
+	   *
+	   * @private
+	   * @param {Object} object The object to iterate over.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @returns {Object} Returns `object`.
+	   */
+	  function baseForOwn(object, iteratee) {
+	    return baseFor(object, iteratee, keys);
+	  }
+
+	  return baseForOwn;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(33)], __WEBPACK_AMD_DEFINE_RESULT__ = function(createBaseFor) {
+
+	  /**
+	   * The base implementation of `baseForIn` and `baseForOwn` which iterates
+	   * over `object` properties returned by `keysFunc` invoking `iteratee` for
+	   * each property. Iteratee functions may exit iteration early by explicitly
+	   * returning `false`.
+	   *
+	   * @private
+	   * @param {Object} object The object to iterate over.
+	   * @param {Function} iteratee The function invoked per iteration.
+	   * @param {Function} keysFunc The function to get the keys of `object`.
+	   * @returns {Object} Returns `object`.
+	   */
+	  var baseFor = createBaseFor();
+
+	  return baseFor;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(34)], __WEBPACK_AMD_DEFINE_RESULT__ = function(toObject) {
+
+	  /**
+	   * Creates a base function for `_.forIn` or `_.forInRight`.
+	   *
+	   * @private
+	   * @param {boolean} [fromRight] Specify iterating from right to left.
+	   * @returns {Function} Returns the new base function.
+	   */
+	  function createBaseFor(fromRight) {
+	    return function(object, iteratee, keysFunc) {
+	      var iterable = toObject(object),
+	          props = keysFunc(object),
+	          length = props.length,
+	          index = fromRight ? length : -1;
+
+	      while ((fromRight ? index-- : ++index < length)) {
+	        var key = props[index];
+	        if (iteratee(iterable[key], key, iterable) === false) {
+	          break;
+	        }
+	      }
+	      return object;
+	    };
+	  }
+
+	  return createBaseFor;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(8)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isObject) {
+
+	  /**
+	   * Converts `value` to an object if it's not one.
+	   *
+	   * @private
+	   * @param {*} value The value to process.
+	   * @returns {Object} Returns the object.
+	   */
+	  function toObject(value) {
+	    return isObject(value) ? value : Object(value);
+	  }
+
+	  return toObject;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(11), __webpack_require__(13), __webpack_require__(34)], __WEBPACK_AMD_DEFINE_RESULT__ = function(getLength, isLength, toObject) {
+
+	  /**
+	   * Creates a `baseEach` or `baseEachRight` function.
+	   *
+	   * @private
+	   * @param {Function} eachFunc The function to iterate over a collection.
+	   * @param {boolean} [fromRight] Specify iterating from right to left.
+	   * @returns {Function} Returns the new base function.
+	   */
+	  function createBaseEach(eachFunc, fromRight) {
+	    return function(collection, iteratee) {
+	      var length = collection ? getLength(collection) : 0;
+	      if (!isLength(length)) {
+	        return eachFunc(collection, iteratee);
+	      }
+	      var index = fromRight ? length : -1,
+	          iterable = toObject(collection);
+
+	      while ((fromRight ? index-- : ++index < length)) {
+	        if (iteratee(iterable[index], index, iterable) === false) {
+	          break;
+	        }
+	      }
+	      return collection;
+	    };
+	  }
+
+	  return createBaseEach;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 36 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(22), __webpack_require__(16)], __WEBPACK_AMD_DEFINE_RESULT__ = function(bindCallback, isArray) {
+
+	  /** Used as a safe reference for `undefined` in pre-ES5 environments. */
+	  var undefined;
+
+	  /**
+	   * Creates a function for `_.forEach` or `_.forEachRight`.
+	   *
+	   * @private
+	   * @param {Function} arrayFunc The function to iterate over an array.
+	   * @param {Function} eachFunc The function to iterate over a collection.
+	   * @returns {Function} Returns the new each function.
+	   */
+	  function createForEach(arrayFunc, eachFunc) {
+	    return function(collection, iteratee, thisArg) {
+	      return (typeof iteratee == 'function' && thisArg === undefined && isArray(collection))
+	        ? arrayFunc(collection, iteratee)
+	        : eachFunc(collection, bindCallback(iteratee, thisArg, 3));
+	    };
+	  }
+
+	  return createForEach;
+	}.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+
+
+/***/ },
+/* 37 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1329,7 +1724,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// },
 
 /***/ },
-/* 29 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1340,14 +1735,22 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _vector = __webpack_require__(30);
+	var _lodashObjectAssign = __webpack_require__(2);
+
+	var _lodashObjectAssign2 = _interopRequireDefault(_lodashObjectAssign);
+
+	var _lodashObjectCreate = __webpack_require__(26);
+
+	var _lodashObjectCreate2 = _interopRequireDefault(_lodashObjectCreate);
+
+	var _vector = __webpack_require__(39);
 
 	var _vector2 = _interopRequireDefault(_vector);
 
-	var pointer = Object.assign(Object.create(_vector2['default']), {
+	var pointer = (0, _lodashObjectAssign2['default'])((0, _lodashObjectCreate2['default'])(_vector2['default']), {
 	  isDragging: false,
-	  origin: Object.create(_vector2['default']),
-	  delta: Object.create(_vector2['default']),
+	  origin: (0, _lodashObjectCreate2['default'])(_vector2['default']),
+	  delta: (0, _lodashObjectCreate2['default'])(_vector2['default']),
 	  startDragging: function startDragging(x, y) {
 	    this.isDragging = true;
 
@@ -1383,7 +1786,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 30 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1394,7 +1797,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-	var _lodashLangIsNumber = __webpack_require__(31);
+	var _lodashObjectCreate = __webpack_require__(26);
+
+	var _lodashObjectCreate2 = _interopRequireDefault(_lodashObjectCreate);
+
+	var _lodashLangIsNumber = __webpack_require__(40);
 
 	var _lodashLangIsNumber2 = _interopRequireDefault(_lodashLangIsNumber);
 
@@ -1406,7 +1813,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this;
 	  },
 	  get: function get() {
-	    return Object.create(vector).set(this.x, this.y);
+	    return (0, _lodashObjectCreate2['default'])(vector).set(this.x, this.y);
 	  },
 	  clear: function clear() {
 	    delete this.x;
@@ -1512,10 +1919,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = exports['default'];
 
 /***/ },
-/* 31 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(14)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isObjectLike) {
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(9)], __WEBPACK_AMD_DEFINE_RESULT__ = function(isObjectLike) {
 
 	  /** `Object#toString` result references. */
 	  var numberTag = '[object Number]';

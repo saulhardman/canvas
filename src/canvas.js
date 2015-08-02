@@ -1,3 +1,5 @@
+import assign from 'lodash/object/assign';
+import create from 'lodash/object/create';
 import forEach from 'lodash/collection/forEach';
 import isFunction from 'lodash/lang/isFunction';
 
@@ -19,13 +21,13 @@ var canvas = {
   },
   init(element, options = {}) {
     this.element = element;
-    this.settings = Object.assign(this.defaults, options);
+    this.settings = assign(this.defaults, options);
     this.ratio = window.devicePixelRatio || 1;
     this.isRetina = this.ratio > 1;
     this.isPaused = false;
     this.isRunning = false;
     this.context = this.element.getContext('2d', this.settings.contextAttributes);
-    this.pointer = Object.create(pointer);
+    this.pointer = create(pointer);
     this.width = this.element.width;
     this.height = this.element.height;
 
