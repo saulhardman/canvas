@@ -6,15 +6,16 @@ var plugins = [
     new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin('bower.json', ['main'])
   ),
 ];
+var entry = { app: [ './src/canvas.js' ] };
 
-if (!isDev) {
+if (isDev) {
+  entry.app.push('webpack/hot/dev-server');
+} else {
   plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }));
 }
 
 module.exports = {
-  entry: {
-    app: [ './src/canvas.js' ],
-  },
+  entry: entry,
   output: {
     path: './dist',
     publicPath: '/assets/',
