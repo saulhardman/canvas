@@ -1,11 +1,11 @@
-import vector from './vector';
-import events from './events';
-import pointer from './pointer';
 import forEach from 'lodash/collection/forEach';
 import isFunction from 'lodash/lang/isFunction';
 
+import events from './events';
+import pointer from './pointer';
+import vector from './vector';
+
 var canvas = {
-  vector: vector,
   defaults: {
     autoStart: true,
     autoClear: true,
@@ -267,5 +267,7 @@ var canvas = {
     return this;
   },
 };
+
+export {canvas, events, pointer, vector};
 
 export default canvas;
