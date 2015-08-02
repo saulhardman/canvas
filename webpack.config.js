@@ -19,6 +19,8 @@ module.exports = {
   output: {
     path: './dist',
     filename: isDev ? 'canvas.js' : 'canvas.min.js',
+    libraryTarget: 'umd',
+    library: 'canvas',
   },
   module: {
     loaders: [
