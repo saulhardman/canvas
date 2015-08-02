@@ -18,10 +18,7 @@ module.exports = {
   entry: entry,
   output: {
     path: './dist',
-    publicPath: '/assets/',
     filename: isDev ? 'canvas.js' : 'canvas.min.js',
-    libraryTarget: 'var',
-    library: 'canvas',
   },
   module: {
     loaders: [
