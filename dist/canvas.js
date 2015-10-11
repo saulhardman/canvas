@@ -371,6 +371,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.element.width *= this.ratio;
 	    this.element.height *= this.ratio;
 
+	    this.element.style.width = this.width;
+	    this.element.style.height = this.height;
+
 	    return this;
 	  }
 	};
