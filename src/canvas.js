@@ -265,8 +265,8 @@ var canvas = {
     this.element.width *= this.ratio;
     this.element.height *= this.ratio;
 
-    this.element.style.width = this.width;
-    this.element.style.height = this.height;
+    this.element.style.width = this.width + 'px';
+    this.element.style.height = this.height + 'px';
 
     return this;
   },
