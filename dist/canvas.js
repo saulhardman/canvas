@@ -122,14 +122,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.pointer = (0, _lodashObjectCreate2['default'])(_pointer2['default']);
 	    this.width = this.element.width;
 	    this.height = this.element.height;
-	    this.element.style.width = this.width + 'px';
-	    this.element.style.height = this.height + 'px';
+
+	    this.setElementDimensions();
 
 	    this.element.classList.add('canvas');
 
-	    this.fillScreen();
+	    if (this.settings.fillScreen) {
+	      this.fillScreen();
+	    }
 
-	    this.retinafy();
+	    if (this.settings.supportRetina) {
+	      this.retinafy();
+	    }
 
 	    this.setup();
 
@@ -205,6 +209,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  },
 	  remove: function remove() {
 	    this.element.parentNode.removeChild(this.element);
+
+	    return this;
+	  },
+	  setElementDimensions: function setElementDimensions() {
+	    this.element.style.width = this.width + 'px';
+	    this.element.style.height = this.height + 'px';
 
 	    return this;
 	  },
@@ -353,24 +363,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.pause();
 	  },
 	  resize: function resize() {
-	    this.fillScreen();
+	    if (this.settings.fillScreen) {
+	      this.fillScreen();
+
+	      if (this.settings.supportRetina) {
+	        this.retinafy();
+	      }
+	    }
 
 	    return this;
 	  },
 	  fillScreen: function fillScreen() {
-	    if (!this.settings.fillScreen) {
-	      return this;
-	    }
-
 	    this.width = this.element.width = window.innerWidth;
 	    this.height = this.element.height = window.innerHeight;
 
-	    this.retinafy();
+	    this.setElementDimensions();
 
 	    return this;
 	  },
 	  retinafy: function retinafy() {
-	    if (!this.settings.supportRetina || !this.isRetina) {
+	    if (!this.isRetina) {
 	      return this;
 	    }
 

@@ -30,14 +30,18 @@ var canvas = {
     this.pointer = create(pointer);
     this.width = this.element.width;
     this.height = this.element.height;
-    this.element.style.width = `${this.width}px`;
-    this.element.style.height = `${this.height}px`;
+
+    this.setElementDimensions();
 
     this.element.classList.add('canvas');
 
-    this.fillScreen();
+    if (this.settings.fillScreen) {
+      this.fillScreen();
+    }
 
-    this.retinafy();
+    if (this.settings.supportRetina) {
+      this.retinafy();
+    }
 
     this.setup();
 
@@ -113,6 +117,12 @@ var canvas = {
   },
   remove() {
     this.element.parentNode.removeChild(this.element);
+
+    return this;
+  },
+  setElementDimensions() {
+    this.element.style.width = `${this.width}px`;
+    this.element.style.height = `${this.height}px`;
 
     return this;
   },
@@ -246,24 +256,26 @@ var canvas = {
     return this.pause();
   },
   resize() {
-    this.fillScreen();
+    if (this.settings.fillScreen) {
+      this.fillScreen();
+
+      if (this.settings.supportRetina) {
+        this.retinafy();
+      }
+    }
 
     return this;
   },
   fillScreen() {
-    if (!this.settings.fillScreen) {
-      return this;
-    }
-
     this.width = this.element.width = window.innerWidth;
     this.height = this.element.height = window.innerHeight;
 
-    this.retinafy();
+    this.setElementDimensions();
 
     return this;
   },
   retinafy() {
-    if (!this.settings.supportRetina || !this.isRetina) {
+    if (!this.isRetina) {
       return this;
     }
 
