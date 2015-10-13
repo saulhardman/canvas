@@ -122,10 +122,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.pointer = (0, _lodashObjectCreate2['default'])(_pointer2['default']);
 	    this.width = this.element.width;
 	    this.height = this.element.height;
+	    this.element.style.width = this.width + 'px';
+	    this.element.style.height = this.height + 'px';
 
 	    this.element.classList.add('canvas');
 
-	    this.resize();
+	    this.fillScreen();
+
+	    this.retinafy();
 
 	    this.setup();
 
@@ -349,7 +353,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.pause();
 	  },
 	  resize: function resize() {
-	    this.fillScreen().retinafy();
+	    this.fillScreen();
 
 	    return this;
 	  },
@@ -361,6 +365,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.width = this.element.width = window.innerWidth;
 	    this.height = this.element.height = window.innerHeight;
 
+	    this.retinafy();
+
 	    return this;
 	  },
 	  retinafy: function retinafy() {
@@ -370,9 +376,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    this.element.width *= this.ratio;
 	    this.element.height *= this.ratio;
-
-	    this.element.style.width = this.width + 'px';
-	    this.element.style.height = this.height + 'px';
 
 	    return this;
 	  }

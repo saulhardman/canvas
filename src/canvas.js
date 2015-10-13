@@ -30,10 +30,14 @@ var canvas = {
     this.pointer = create(pointer);
     this.width = this.element.width;
     this.height = this.element.height;
+    this.element.style.width = `${this.width}px`;
+    this.element.style.height = `${this.height}px`;
 
     this.element.classList.add('canvas');
 
-    this.resize();
+    this.fillScreen();
+
+    this.retinafy();
 
     this.setup();
 
@@ -242,8 +246,7 @@ var canvas = {
     return this.pause();
   },
   resize() {
-    this.fillScreen()
-        .retinafy();
+    this.fillScreen();
 
     return this;
   },
@@ -255,6 +258,8 @@ var canvas = {
     this.width = this.element.width = window.innerWidth;
     this.height = this.element.height = window.innerHeight;
 
+    this.retinafy();
+
     return this;
   },
   retinafy() {
@@ -264,9 +269,6 @@ var canvas = {
 
     this.element.width *= this.ratio;
     this.element.height *= this.ratio;
-
-    this.element.style.width = this.width + 'px';
-    this.element.style.height = this.height + 'px';
 
     return this;
   },
