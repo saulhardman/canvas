@@ -67,7 +67,7 @@ var vector = {
     return this;
   },
   magnitude() {
-    return Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
+    return Math.sqrt((this.x * this.x) + (this.y * this.y));
   },
   limit(limitation) {
     this.limitation = limitation;
