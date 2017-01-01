@@ -1,35 +1,30 @@
-var path = require('path');
-var webpack = require('webpack');
-var isDev = process.argv.slice(2).indexOf('--dev') > -1;
-var isPrd = process.argv.slice(2).indexOf('--prd') > -1;
-var plugins = [];
-var entry = { app: [ './src/canvas.js' ] };
-
-if (isDev) {
-  entry.app.push('webpack/hot/dev-server');
-} else if (isPrd) {
-  plugins.push(new webpack.optimize.UglifyJsPlugin({ minimize: true }));
-}
+const webpack = require('webpack');
 
 module.exports = {
-  entry: entry,
+  entry: {
+    app: ['./src/index.js'],
+  },
   output: {
-    path: './dist',
-    filename: isPrd ? 'canvas.min.js' : 'canvas.js',
+    filename: 'canvas.js',
+    library: 'canvas',
     libraryTarget: 'umd',
   },
   module: {
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: 'node_modules/**',
         loader: 'babel',
+      },
+      {
+        test: /\.html$/,
+        loader: 'raw',
       },
     ],
   },
-  resolve: {
-    root: [ path.join(__dirname, 'bower_components') ],
-    alias: { lodash: 'lodash-amd/modern' },
-  },
-  plugins: plugins,
+  plugins: [
+    new webpack.DefinePlugin({
+      ENV: JSON.stringify('development'),
+    }),
+  ],
 };
