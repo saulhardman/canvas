@@ -5,7 +5,6 @@ import isFunction from 'lodash/lang/isFunction';
 
 import events from './events';
 import pointer from './pointer';
-import vector from './vector';
 
 var canvas = {
   defaults: {
@@ -286,6 +285,5 @@ var canvas = {
   },
 };
 
-export {canvas, events, pointer, vector};
 
 export default canvas;
