@@ -1,4 +1,4 @@
-export default {
+const events = {
   resize: {
     handler: 'onResize',
     element: window,
@@ -41,3 +41,5 @@ export default {
   //   handler: 'onTouchEnd',
   // },
 };
+
+export default events;

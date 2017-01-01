@@ -1,12 +1,11 @@
-import assign from 'lodash/object/assign';
-import create from 'lodash/object/create';
+import assign from 'lodash-es/assign';
 
 import vector from './vector';
 
-var pointer = assign(create(vector), {
+const pointer = assign(Object.create(vector), {
   isDragging: false,
-  origin: create(vector),
-  delta: create(vector),
+  origin: Object.create(vector),
+  delta: Object.create(vector),
   startDragging(x, y) {
     this.isDragging = true;
 
@@ -15,7 +14,7 @@ var pointer = assign(create(vector), {
 
     return this;
   },
-  stopDragging(x, y) {
+  stopDragging() {
     this.isDragging = false;
 
     this.origin.clear();
@@ -24,18 +23,16 @@ var pointer = assign(create(vector), {
     return this;
   },
   set(x, y) {
-    var delta;
-
     vector.set.call(this, x, y);
 
     if (this.isDragging) {
-      delta = this.get().subtract(this.origin);
+      const delta = this.get().subtract(this.origin);
 
       this.delta.set(delta.x, delta.y);
     }
 
     return this;
-  }
+  },
 });
 
 export default pointer;

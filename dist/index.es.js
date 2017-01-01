@@ -1,9 +1,186 @@
 import assign from 'lodash-es/assign';
 import forEach from 'lodash-es/forEach';
 import isFunction from 'lodash-es/isFunction';
+import isNumber from 'lodash-es/isNumber';
 
-import events from './events';
-import pointer from './pointer';
+const events = {
+  resize: {
+    handler: 'onResize',
+    element: window,
+  },
+  visibilitychange: {
+    handler: 'onVisibilityChange',
+    element: document,
+  },
+  keydown: {
+    handler: 'onKeyDown',
+    element: document,
+  },
+  keyup: {
+    handler: 'onKeyUp',
+    element: document,
+  },
+  mouseover: {
+    handler: 'onMouseOver',
+  },
+  mousemove: {
+    handler: 'onMouseMove',
+  },
+  mouseout: {
+    handler: 'onMouseOut',
+  },
+  mousedown: {
+    handler: 'onMouseDown',
+  },
+  mouseup: {
+    handler: 'onMouseUp',
+  },
+  // TODO: support touch events
+  // touchstart: {
+  //   handler: 'onTouchStart',
+  // },
+  // touchmove: {
+  //   handler: 'onTouchStart',
+  // },
+  // touchend: {
+  //   handler: 'onTouchEnd',
+  // },
+};
+
+const vector = {
+  set(x, y) {
+    this.x = x;
+    this.y = y;
+
+    return this;
+  },
+  get() {
+    return Object.create(vector).set(this.x, this.y);
+  },
+  clear() {
+    delete this.x;
+    delete this.y;
+
+    return this;
+  },
+  add({ x, y }) {
+    this.x += x;
+
+    this.y += y;
+
+    this.checkLimitation();
+
+    return this;
+  },
+  subtract({ x, y }) {
+    this.x -= x;
+
+    this.y -= y;
+
+    this.checkLimitation();
+
+    return this;
+  },
+  multiply(multiplier, check) {
+    if (isNumber(multiplier)) {
+      this.x *= multiplier;
+
+      this.y *= multiplier;
+    }
+
+    // TODO: handle case of multiplier being a vector
+
+    if (check !== false) {
+      this.checkLimitation();
+    }
+
+    return this;
+  },
+  divide(divisor, check) {
+    if (isNumber(divisor)) {
+      this.x /= divisor;
+
+      this.y /= divisor;
+    }
+
+    // TODO: handle case of divisor being a vector
+
+    if (check !== false) {
+      this.checkLimitation();
+    }
+
+    return this;
+  },
+  magnitude() {
+    return Math.sqrt((this.x * this.x) + (this.y * this.y));
+  },
+  limit(limitation) {
+    this.limitation = limitation;
+
+    this.checkLimitation();
+
+    return this;
+  },
+  checkLimitation() {
+    if (isNumber(this.limitation)) {
+      const magnitude = this.magnitude();
+
+      if (magnitude > this.limitation) {
+        this.divide(magnitude, false).multiply(this.limitation, false);
+      }
+    }
+
+    return this;
+  },
+  normalize() {
+    const magnitude = this.magnitude();
+
+    if (magnitude !== 0) {
+      return this.divide(this.magnitude());
+    }
+
+    return this;
+  },
+  toJSON() {
+    return {
+      x: this.x,
+      y: this.y,
+    };
+  },
+};
+
+const pointer = assign(Object.create(vector), {
+  isDragging: false,
+  origin: Object.create(vector),
+  delta: Object.create(vector),
+  startDragging(x, y) {
+    this.isDragging = true;
+
+    this.origin.set(x, y);
+    this.delta.set(0, 0);
+
+    return this;
+  },
+  stopDragging() {
+    this.isDragging = false;
+
+    this.origin.clear();
+    this.delta.clear();
+
+    return this;
+  },
+  set(x, y) {
+    vector.set.call(this, x, y);
+
+    if (this.isDragging) {
+      const delta = this.get().subtract(this.origin);
+
+      this.delta.set(delta.x, delta.y);
+    }
+
+    return this;
+  },
+});
 
 const DEFAULT_OPTIONS = {
   autoStart: true,
@@ -282,4 +459,5 @@ const canvas = {
   },
 };
 
-export default canvas;
+export { canvas, events, vector, pointer };
+//# sourceMappingURL=index.es.js.map

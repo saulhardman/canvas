@@ -1,0 +1,23 @@
+{
+  "name": "canvas",
+  "version": "0.1.0-alpha",
+  "description": "Another creative coding framework.",
+  "main": "index.js",
+  "module": "index.es.js",
+  "jsnext:main": "index.es.js",
+  "dependencies": {
+    "lodash-es": "^4.17.3"
+  },
+  "repository": "https://github.com/saulhardman/canvas",
+  "keywords": [
+    "canvas",
+    "creative",
+    "animation"
+  ],
+  "author": "Saul Hardman <hello@iamsaul.co.uk>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/saulhardman/canvas/issues"
+  },
+  "homepage": "https://github.com/saulhardman/canvas#readme"
+}

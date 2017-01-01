@@ -1,8 +1,6 @@
-import create from 'lodash/object/create';
+import isNumber from 'lodash-es/isNumber';
 
-import isNumber from 'lodash/lang/isNumber';
-
-var vector = {
+const vector = {
   set(x, y) {
     this.x = x;
     this.y = y;
@@ -10,7 +8,7 @@ var vector = {
     return this;
   },
   get() {
-    return create(vector).set(this.x, this.y);
+    return Object.create(vector).set(this.x, this.y);
   },
   clear() {
     delete this.x;
@@ -77,10 +75,8 @@ var vector = {
     return this;
   },
   checkLimitation() {
-    var magnitude;
-
     if (isNumber(this.limitation)) {
-      magnitude = this.magnitude();
+      const magnitude = this.magnitude();
 
       if (magnitude > this.limitation) {
         this.divide(magnitude, false).multiply(this.limitation, false);
@@ -90,7 +86,7 @@ var vector = {
     return this;
   },
   normalize() {
-    var magnitude = this.magnitude();
+    const magnitude = this.magnitude();
 
     if (magnitude !== 0) {
       return this.divide(this.magnitude());
@@ -103,7 +99,7 @@ var vector = {
       x: this.x,
       y: this.y,
     };
-  }
+  },
 };
 
 export default vector;

@@ -1,21 +1,37 @@
 {
+  "private": true,
   "name": "canvas",
-  "version": "0.0.10-alpha",
+  "version": "0.1.0-alpha",
   "description": "Another creative coding framework.",
-  "main": "./dist/canvas.js",
-  "dependencies": {},
+  "main": "index.js",
+  "module": "index.es.js",
+  "jsnext:main": "index.es.js",
+  "dependencies": {
+    "lodash-es": "^4.17.3"
+  },
   "devDependencies": {
-    "babel-core": "^5.8.14",
-    "babel-loader": "^5.3.2",
-    "webpack-dev-server": "^1.10.1"
+    "babel-core": "^6.21.0",
+    "babel-loader": "^6.2.10",
+    "babel-preset-latest": "^6.16.0",
+    "camel-case": "^3.0.0",
+    "del": "^2.2.2",
+    "eslint": "^3.12.2",
+    "eslint-config-airbnb-base": "^11.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "raw-loader": "^0.5.1",
+    "rollup": "^0.38.3",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-uglify": "^1.0.1",
+    "webpack": "^1.14.0",
+    "webpack-dev-server": "^1.16.2"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack-dev-server --hot --inline",
+    "build": "node tools/build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+ssh://git@github.com/saulhardman/canvas.git"
-  },
+  "repository": "https://github.com/saulhardman/canvas",
   "keywords": [
     "canvas",
     "creative",
@@ -26,5 +42,10 @@
   "bugs": {
     "url": "https://github.com/saulhardman/canvas/issues"
   },
-  "homepage": "https://github.com/saulhardman/canvas#readme"
+  "homepage": "https://github.com/saulhardman/canvas#readme",
+  "babel": {
+    "presets": [
+      "latest"
+    ]
+  }
 }
