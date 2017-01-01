@@ -1,46 +1,42 @@
-import assign from 'lodash/object/assign';
-import create from 'lodash/object/create';
-import forEach from 'lodash/collection/forEach';
-import isFunction from 'lodash/lang/isFunction';
+import assign from 'lodash-es/assign';
+import forEach from 'lodash-es/forEach';
+import isFunction from 'lodash-es/isFunction';
 
 import events from './events';
 import pointer from './pointer';
 
-var canvas = {
-  defaults: {
-    autoStart: true,
-    autoClear: true,
-    autoPause: true,
-    requestAnimationFrame: true,
-    allowFullscreen: true,
-    fillScreen: true,
-    supportRetina: true,
-    backgroundColor: 'rgb(20, 20, 20)',
-    addClasses: true,
-  },
+const DEFAULT_OPTIONS = {
+  autoStart: true,
+  autoClear: true,
+  autoPause: true,
+  requestAnimationFrame: true,
+  allowFullscreen: true,
+  fillScreen: true,
+  supportRetina: true,
+  backgroundColor: 'rgb(20, 20, 20)',
+  addClasses: true,
+};
+const PLAYING_STATE_CLASS = 'is-playing';
+const PAUSED_STATE_CLASS = 'is-paused';
+
+const canvas = {
   init(element, options = {}) {
     this.element = element;
-    this.settings = assign(this.defaults, options);
-    this.ratio = window.devicePixelRatio || 1;
-    this.isRetina = this.ratio > 1;
+    this.settings = assign({}, DEFAULT_OPTIONS, options);
+    this.devicePixelRatio = window.devicePixelRatio || 1;
+    this.isRetina = this.devicePixelRatio > 1;
+    this.isPlaying = false;
     this.isPaused = false;
-    this.isRunning = false;
     this.context = this.element.getContext('2d', this.settings.contextAttributes);
-    this.pointer = create(pointer);
+    this.pointer = Object.create(pointer);
     this.width = this.element.width;
     this.height = this.element.height;
-
-    this.setElementDimensions();
-
-    this.element.classList.add('canvas');
 
     if (this.settings.fillScreen) {
       this.fillScreen();
     }
 
-    if (this.settings.supportRetina) {
-      this.retinafy();
-    }
+    this.setElementDimensions();
 
     this.setup();
 
@@ -54,13 +50,13 @@ var canvas = {
     return this;
   },
   start() {
-    this.isRunning = true;
+    this.isPlaying = true;
 
     this.startTime = Date.now();
 
     this.time = 0;
 
-    this.element.classList.add('canvas--is-running');
+    this.element.classList.add(PLAYING_STATE_CLASS);
 
     this.bindEvents();
 
@@ -73,38 +69,34 @@ var canvas = {
   pause() {
     this.isPaused = true;
 
-    this.element.classList.add('canvas--is-paused');
+    this.element.classList.add(PAUSED_STATE_CLASS);
 
     this.clearAnimationFrame();
 
     return this;
   },
-  unPause() {
+  play() {
     this.isPaused = false;
 
-    this.element.classList.remove('canvas--is-paused');
+    this.element.classList.remove(PAUSED_STATE_CLASS);
 
-    this.loop();
-
-    return this;
+    return this.loop();
   },
   stop() {
-    var classList;
-
-    this.isRunning = false;
+    this.isPlaying = false;
     this.isPaused = false;
 
-    classList = this.element.classList;
+    const classList = this.element.classList;
 
-    classList.remove('canvas--is-running');
-    classList.remove('canvas--is-paused');
+    classList.remove(PLAYING_STATE_CLASS);
+    classList.remove(PAUSED_STATE_CLASS);
 
     this.clearAnimationFrame();
 
     return this.unBindEvents();
   },
   destroy() {
-    if (this.isRunning) {
+    if (this.isPlaying) {
       this.stop();
     }
 
@@ -116,12 +108,6 @@ var canvas = {
   },
   remove() {
     this.element.parentNode.removeChild(this.element);
-
-    return this;
-  },
-  setElementDimensions() {
-    this.element.style.width = `${this.width}px`;
-    this.element.style.height = `${this.height}px`;
 
     return this;
   },
@@ -141,7 +127,7 @@ var canvas = {
     return this;
   },
   loop() {
-    var now = Date.now();
+    const now = Date.now();
 
     this.time = now - this.startTime;
 
@@ -149,7 +135,7 @@ var canvas = {
       this.animationFrame = requestAnimationFrame(this.loop.bind(this));
     }
 
-    // NOTE: frameRate === 0, false, undefined
+    // NOTE: frameRate === 0, false, undefined, null
     if (!this.settings.frameRate) {
       return this.run();
     }
@@ -168,7 +154,7 @@ var canvas = {
     if (this.settings.supportRetina && this.isRetina) {
       this.context.save();
 
-      this.context.scale(this.ratio, this.ratio);
+      this.context.scale(this.devicePixelRatio, this.devicePixelRatio);
     }
 
     if (this.settings.autoClear) {
@@ -206,8 +192,7 @@ var canvas = {
     return this;
   },
   handleEvent(event) {
-    var type = event.type;
-    var handler;
+    const { type } = event;
 
     // NOTE: only allow visibilitychange and resize events whilst paused
     if (this.isPaused &&
@@ -220,7 +205,7 @@ var canvas = {
       this[type](event);
     }
 
-    handler = events[event.type].handler;
+    const handler = events[type].handler;
 
     if (isFunction(this[handler])) {
       this[handler](event);
@@ -249,41 +234,52 @@ var canvas = {
     }
 
     if (document.visibilityState === 'visible') {
-      return this.unPause();
+      return this.play();
     }
 
     return this.pause();
   },
   resize() {
     if (this.settings.fillScreen) {
-      this.fillScreen();
-
-      if (this.settings.supportRetina) {
-        this.retinafy();
-      }
+      this.fillScreen()
+          .setElementDimensions();
     }
 
     return this;
   },
-  fillScreen() {
-    this.width = this.element.width = window.innerWidth;
-    this.height = this.element.height = window.innerHeight;
+  setWidth(width) {
+    this.width = this.element.width = width;
 
     this.setElementDimensions();
 
     return this;
   },
-  retinafy() {
-    if (!this.isRetina) {
+  setHeight(height) {
+    this.height = this.element.height = height;
+
+    this.setElementDimensions();
+
+    return this;
+  },
+  setElementDimensions() {
+    this.element.style.width = `${this.width}px`;
+    this.element.style.height = `${this.height}px`;
+
+    if (!this.isRetina || !this.settings.supportRetina) {
       return this;
     }
 
-    this.element.width *= this.ratio;
-    this.element.height *= this.ratio;
+    this.element.width = this.width * this.devicePixelRatio;
+    this.element.height = this.height * this.devicePixelRatio;
+
+    return this;
+  },
+  fillScreen() {
+    this.setWidth(window.innerWidth)
+        .setHeight(window.innerHeight);
 
     return this;
   },
 };
-
 
 export default canvas;
