@@ -1,6 +1,6 @@
 {
   "name": "canvas",
-  "version": "0.1.0-alpha",
+  "version": "0.1.1-alpha",
   "description": "Another creative coding framework.",
   "main": "index.js",
   "module": "index.es.js",

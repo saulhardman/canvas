@@ -201,6 +201,9 @@ var PAUSED_STATE_CLASS = 'is-paused';
 var canvas = {
   init: function init(element) {
     var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var width = element.width,
+        height = element.height;
+
 
     this.element = element;
     this.settings = assign({}, DEFAULT_OPTIONS, options);
@@ -208,16 +211,14 @@ var canvas = {
     this.isRetina = this.devicePixelRatio > 1;
     this.isPlaying = false;
     this.isPaused = false;
-    this.context = this.element.getContext('2d', this.settings.contextAttributes);
+    this.context = element.getContext('2d', this.settings.contextAttributes);
     this.pointer = Object.create(pointer);
-    this.width = this.element.width;
-    this.height = this.element.height;
+
+    this.setSize({ width: width, height: height });
 
     if (this.settings.fillScreen) {
       this.fillScreen();
     }
-
-    this.setElementDimensions();
 
     this.setup();
 
@@ -438,32 +439,29 @@ var canvas = {
   },
   resize: function resize() {
     if (this.settings.fillScreen) {
-      this.fillScreen().setElementDimensions();
+      this.fillScreen().setElementSize();
     }
 
     return this;
   },
-  setWidth: function setWidth(width) {
+  setSize: function setSize(_ref6) {
+    var _ref6$width = _ref6.width,
+        width = _ref6$width === undefined ? this.width : _ref6$width,
+        _ref6$height = _ref6.height,
+        height = _ref6$height === undefined ? this.height : _ref6$height;
+
     this.width = this.element.width = width;
-
-    this.setElementDimensions();
-
-    return this;
-  },
-  setHeight: function setHeight(height) {
     this.height = this.element.height = height;
 
-    this.setElementDimensions();
-
-    return this;
+    return this.setElementSize();
   },
-  setElementDimensions: function setElementDimensions() {
-    this.element.style.width = this.width + 'px';
-    this.element.style.height = this.height + 'px';
-
+  setElementSize: function setElementSize() {
     if (!this.isRetina || !this.settings.supportRetina) {
       return this;
     }
+
+    this.element.style.width = this.width + 'px';
+    this.element.style.height = this.height + 'px';
 
     this.element.width = this.width * this.devicePixelRatio;
     this.element.height = this.height * this.devicePixelRatio;
