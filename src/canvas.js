@@ -21,22 +21,22 @@ const PAUSED_STATE_CLASS = 'is-paused';
 
 const canvas = {
   init(element, options = {}) {
+    const { width, height } = element;
+
     this.element = element;
     this.settings = assign({}, DEFAULT_OPTIONS, options);
     this.devicePixelRatio = window.devicePixelRatio || 1;
     this.isRetina = this.devicePixelRatio > 1;
     this.isPlaying = false;
     this.isPaused = false;
-    this.context = this.element.getContext('2d', this.settings.contextAttributes);
+    this.context = element.getContext('2d', this.settings.contextAttributes);
     this.pointer = Object.create(pointer);
-    this.width = this.element.width;
-    this.height = this.element.height;
+
+    this.setSize({ width, height });
 
     if (this.settings.fillScreen) {
       this.fillScreen();
     }
-
-    this.setElementDimensions();
 
     this.setup();
 
@@ -242,32 +242,24 @@ const canvas = {
   resize() {
     if (this.settings.fillScreen) {
       this.fillScreen()
-          .setElementDimensions();
+          .setElementSize();
     }
 
     return this;
   },
-  setWidth(width) {
+  setSize({ width = this.width, height = this.height }) {
     this.width = this.element.width = width;
-
-    this.setElementDimensions();
-
-    return this;
-  },
-  setHeight(height) {
     this.height = this.element.height = height;
 
-    this.setElementDimensions();
-
-    return this;
+    return this.setElementSize();
   },
-  setElementDimensions() {
-    this.element.style.width = `${this.width}px`;
-    this.element.style.height = `${this.height}px`;
-
+  setElementSize() {
     if (!this.isRetina || !this.settings.supportRetina) {
       return this;
     }
+
+    this.element.style.width = `${this.width}px`;
+    this.element.style.height = `${this.height}px`;
 
     this.element.width = this.width * this.devicePixelRatio;
     this.element.height = this.height * this.devicePixelRatio;
