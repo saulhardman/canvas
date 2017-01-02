@@ -3,67 +3,60 @@ import forEach from 'lodash-es/forEach';
 import isFunction from 'lodash-es/isFunction';
 import isNumber from 'lodash-es/isNumber';
 
-const events = {
+var events = {
   resize: {
     handler: 'onResize',
-    element: window,
+    element: window
   },
   visibilitychange: {
     handler: 'onVisibilityChange',
-    element: document,
+    element: document
   },
   keydown: {
     handler: 'onKeyDown',
-    element: document,
+    element: document
   },
   keyup: {
     handler: 'onKeyUp',
-    element: document,
+    element: document
   },
   mouseover: {
-    handler: 'onMouseOver',
+    handler: 'onMouseOver'
   },
   mousemove: {
-    handler: 'onMouseMove',
+    handler: 'onMouseMove'
   },
   mouseout: {
-    handler: 'onMouseOut',
+    handler: 'onMouseOut'
   },
   mousedown: {
-    handler: 'onMouseDown',
+    handler: 'onMouseDown'
   },
   mouseup: {
-    handler: 'onMouseUp',
-  },
-  // TODO: support touch events
-  // touchstart: {
-  //   handler: 'onTouchStart',
-  // },
-  // touchmove: {
-  //   handler: 'onTouchStart',
-  // },
-  // touchend: {
-  //   handler: 'onTouchEnd',
-  // },
+    handler: 'onMouseUp'
+  }
 };
 
-const vector = {
-  set(x, y) {
+var vector = {
+  set: function set(x, y) {
     this.x = x;
     this.y = y;
 
     return this;
   },
-  get() {
+  get: function get() {
     return Object.create(vector).set(this.x, this.y);
   },
-  clear() {
+  clear: function clear() {
     delete this.x;
     delete this.y;
 
     return this;
   },
-  add({ x, y }) {
+  add: function add(_ref) {
+    var x = _ref.x,
+        y = _ref.y;
+
     this.x += x;
 
     this.y += y;
@@ -72,7 +65,10 @@ const vector = {
 
     return this;
   },
-  subtract({ x, y }) {
+  subtract: function subtract(_ref2) {
+    var x = _ref2.x,
+        y = _ref2.y;
+
     this.x -= x;
 
     this.y -= y;
@@ -81,7 +77,7 @@ const vector = {
 
     return this;
   },
-  multiply(multiplier, check) {
+  multiply: function multiply(multiplier, check) {
     if (isNumber(multiplier)) {
       this.x *= multiplier;
 
@@ -96,7 +92,7 @@ const vector = {
 
     return this;
   },
-  divide(divisor, check) {
+  divide: function divide(divisor, check) {
     if (isNumber(divisor)) {
       this.x /= divisor;
 
@@ -111,19 +107,19 @@ const vector = {
 
     return this;
   },
-  magnitude() {
-    return Math.sqrt((this.x * this.x) + (this.y * this.y));
+  magnitude: function magnitude() {
+    return Math.sqrt(this.x * this.x + this.y * this.y);
   },
-  limit(limitation) {
+  limit: function limit(limitation) {
     this.limitation = limitation;
 
     this.checkLimitation();
 
     return this;
   },
-  checkLimitation() {
+  checkLimitation: function checkLimitation() {
     if (isNumber(this.limitation)) {
-      const magnitude = this.magnitude();
+      var magnitude = this.magnitude();
 
       if (magnitude > this.limitation) {
         this.divide(magnitude, false).multiply(this.limitation, false);
@@ -132,8 +128,8 @@ const vector = {
 
     return this;
   },
-  normalize() {
-    const magnitude = this.magnitude();
+  normalize: function normalize() {
+    var magnitude = this.magnitude();
 
     if (magnitude !== 0) {
       return this.divide(this.magnitude());
@@ -141,19 +137,19 @@ const vector = {
 
     return this;
   },
-  toJSON() {
+  toJSON: function toJSON() {
     return {
       x: this.x,
-      y: this.y,
+      y: this.y
     };
-  },
+  }
 };
 
-const pointer = assign(Object.create(vector), {
+var pointer = assign(Object.create(vector), {
   isDragging: false,
   origin: Object.create(vector),
   delta: Object.create(vector),
-  startDragging(x, y) {
+  startDragging: function startDragging(x, y) {
     this.isDragging = true;
 
     this.origin.set(x, y);
@@ -161,7 +157,7 @@ const pointer = assign(Object.create(vector), {
 
     return this;
   },
-  stopDragging() {
+  stopDragging: function stopDragging() {
     this.isDragging = false;
 
     this.origin.clear();
@@ -169,20 +165,20 @@ const pointer = assign(Object.create(vector), {
 
     return this;
   },
-  set(x, y) {
+  set: function set(x, y) {
     vector.set.call(this, x, y);
 
     if (this.isDragging) {
-      const delta = this.get().subtract(this.origin);
+      var delta = this.get().subtract(this.origin);
 
       this.delta.set(delta.x, delta.y);
     }
 
     return this;
-  },
+  }
 });
 
-const DEFAULT_OPTIONS = {
+var DEFAULT_OPTIONS = {
   autoStart: true,
   autoClear: true,
   autoPause: true,
@@ -191,14 +187,17 @@ const DEFAULT_OPTIONS = {
   fillScreen: true,
   supportRetina: true,
   backgroundColor: 'rgb(20, 20, 20)',
-  addClasses: true,
+  addClasses: true
 };
-const PLAYING_STATE_CLASS = 'is-playing';
-const PAUSED_STATE_CLASS = 'is-paused';
+var PLAYING_STATE_CLASS = 'is-playing';
+var PAUSED_STATE_CLASS = 'is-paused';
 
-const canvas = {
-  init(element, options = {}) {
-    const { width, height } = element;
+var canvas = {
+  init: function init(element) {
+    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var width = element.width,
+        height = element.height;
+
 
     this.element = element;
     this.settings = assign({}, DEFAULT_OPTIONS, options);
@@ -209,7 +208,7 @@ const canvas = {
     this.context = element.getContext('2d', this.settings.contextAttributes);
     this.pointer = Object.create(pointer);
 
-    this.setSize({ width, height });
+    this.setSize({ width: width, height: height });
 
     if (this.settings.fillScreen) {
       this.fillScreen();
@@ -223,10 +222,10 @@ const canvas = {
 
     return this;
   },
-  setup() {
+  setup: function setup() {
     return this;
   },
-  start() {
+  start: function start() {
     this.isPlaying = true;
 
     this.startTime = Date.now();
@@ -243,7 +242,7 @@ const canvas = {
 
     return this.loop();
   },
-  pause() {
+  pause: function pause() {
     this.isPaused = true;
 
     this.element.classList.add(PAUSED_STATE_CLASS);
@@ -252,18 +251,18 @@ const canvas = {
 
     return this;
   },
-  play() {
+  play: function play() {
     this.isPaused = false;
 
     this.element.classList.remove(PAUSED_STATE_CLASS);
 
     return this.loop();
   },
-  stop() {
+  stop: function stop() {
     this.isPlaying = false;
     this.isPaused = false;
 
-    const classList = this.element.classList;
+    var classList = this.element.classList;
 
     classList.remove(PLAYING_STATE_CLASS);
     classList.remove(PAUSED_STATE_CLASS);
@@ -272,7 +271,7 @@ const canvas = {
 
     return this.unBindEvents();
   },
-  destroy() {
+  destroy: function destroy() {
     if (this.isPlaying) {
       this.stop();
     }
@@ -283,28 +282,36 @@ const canvas = {
 
     return this;
   },
-  remove() {
+  remove: function remove() {
     this.element.parentNode.removeChild(this.element);
 
     return this;
   },
-  bindEvents() {
+  bindEvents: function bindEvents() {
+    var _this = this;
+
     // NOTE: pass all events to handleEvent (special) function
-    forEach(events, ({ element }, name) => {
-      (element || this.element).addEventListener(name, this, false);
+    forEach(events, function (_ref, name) {
+      var element = _ref.element;
+
+      (element || _this.element).addEventListener(name, _this, false);
     });
 
     return this;
   },
-  unBindEvents() {
-    forEach(events, ({ element }, name) => {
-      (element || this.element).removeEventListener(name, this, false);
+  unBindEvents: function unBindEvents() {
+    var _this2 = this;
+
+    forEach(events, function (_ref2, name) {
+      var element = _ref2.element;
+
+      (element || _this2.element).removeEventListener(name, _this2, false);
     });
 
     return this;
   },
-  loop() {
-    const now = Date.now();
+  loop: function loop() {
+    var now = Date.now();
 
     this.time = now - this.startTime;
 
@@ -325,7 +332,7 @@ const canvas = {
 
     return this;
   },
-  run() {
+  run: function run() {
     this.update();
 
     if (this.settings.supportRetina && this.isRetina) {
@@ -346,20 +353,20 @@ const canvas = {
 
     return this;
   },
-  clearAnimationFrame() {
+  clearAnimationFrame: function clearAnimationFrame() {
     cancelAnimationFrame(this.animationFrame);
 
     this.previousNow = null;
 
     return this;
   },
-  update() {
+  update: function update() {
     return this;
   },
-  draw() {
+  draw: function draw() {
     return this;
   },
-  clear() {
+  clear: function clear() {
     this.context.clearRect(0, 0, this.width, this.height);
 
     this.context.fillStyle = this.settings.backgroundColor;
@@ -368,13 +375,12 @@ const canvas = {
 
     return this;
   },
-  handleEvent(event) {
-    const { type } = event;
+  handleEvent: function handleEvent(event) {
+    var type = event.type;
 
     // NOTE: only allow visibilitychange and resize events whilst paused
-    if (this.isPaused &&
-        type !== 'visibilitychange' &&
-        type !== 'resize') {
+
+    if (this.isPaused && type !== 'visibilitychange' && type !== 'resize') {
       return this;
     }
 
@@ -382,7 +388,7 @@ const canvas = {
       this[type](event);
     }
 
-    const handler = events[type].handler;
+    var handler = events[type].handler;
 
     if (isFunction(this[handler])) {
       this[handler](event);
@@ -390,22 +396,31 @@ const canvas = {
 
     return this;
   },
-  mousedown({ pageX, pageY }) {
+  mousedown: function mousedown(_ref3) {
+    var pageX = _ref3.pageX,
+        pageY = _ref3.pageY;
+
     this.pointer.startDragging(pageX, pageY);
 
     return this;
   },
-  mousemove({ pageX, pageY }) {
+  mousemove: function mousemove(_ref4) {
+    var pageX = _ref4.pageX,
+        pageY = _ref4.pageY;
+
     this.pointer.set(pageX, pageY);
 
     return this;
   },
-  mouseup({ pageX, pageY }) {
+  mouseup: function mouseup(_ref5) {
+    var pageX = _ref5.pageX,
+        pageY = _ref5.pageY;
+
     this.pointer.stopDragging(pageX, pageY);
 
     return this;
   },
-  visibilitychange() {
+  visibilitychange: function visibilitychange() {
     if (!this.settings.autoPause) {
       return this;
     }
@@ -416,39 +431,42 @@ const canvas = {
 
     return this.pause();
   },
-  resize() {
+  resize: function resize() {
     if (this.settings.fillScreen) {
-      this.fillScreen()
-          .setElementSize();
+      this.fillScreen().setElementSize();
     }
 
     return this;
   },
-  setSize({ width = this.width, height = this.height }) {
+  setSize: function setSize(_ref6) {
+    var _ref6$width = _ref6.width,
+        width = _ref6$width === undefined ? this.width : _ref6$width,
+        _ref6$height = _ref6.height,
+        height = _ref6$height === undefined ? this.height : _ref6$height;
+
     this.width = this.element.width = width;
     this.height = this.element.height = height;
 
     return this.setElementSize();
   },
-  setElementSize() {
+  setElementSize: function setElementSize() {
     if (!this.isRetina || !this.settings.supportRetina) {
       return this;
     }
 
-    this.element.style.width = `${this.width}px`;
-    this.element.style.height = `${this.height}px`;
+    this.element.style.width = this.width + 'px';
+    this.element.style.height = this.height + 'px';
 
     this.element.width = this.width * this.devicePixelRatio;
     this.element.height = this.height * this.devicePixelRatio;
 
     return this;
   },
-  fillScreen() {
-    this.setWidth(window.innerWidth)
-        .setHeight(window.innerHeight);
+  fillScreen: function fillScreen() {
+    this.setWidth(window.innerWidth).setHeight(window.innerHeight);
 
     return this;
-  },
+  }
 };
 
 export { canvas, events, vector, pointer };
