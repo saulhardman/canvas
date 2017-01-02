@@ -30,7 +30,7 @@ promise = promise.then(() => del(['dist/*']));
       replace({
         ENV: JSON.stringify('production'),
       }),
-      (format !== 'es' && babel(Object.assign(pkg.babel, {
+      babel(Object.assign(pkg.babel, {
         babelrc: false,
         exclude: 'node_modules/**',
         runtimeHelpers: true,
@@ -41,7 +41,7 @@ promise = promise.then(() => del(['dist/*']));
 
           return x;
         }),
-      }))),
+      })),
       (minify && uglify()),
       (minify && resolve()),
     ],
