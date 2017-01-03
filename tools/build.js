@@ -1,5 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
-
 const fs = require('fs');
 const del = require('del');
 const rollup = require('rollup');
