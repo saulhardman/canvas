@@ -1,5 +1,4 @@
 import assign from 'lodash-es/assign';
-import forEach from 'lodash-es/forEach';
 import isFunction from 'lodash-es/isFunction';
 
 import events from './events';
@@ -112,15 +111,18 @@ const canvas = {
     return this;
   },
   bindEvents() {
-    // NOTE: pass all events to handleEvent (special) function
-    forEach(events, ({ element }, name) => {
+    Object.keys(events).forEach((name) => {
+      const { element } = events[name];
+
       (element || this.element).addEventListener(name, this, false);
     });
 
     return this;
   },
   unBindEvents() {
-    forEach(events, ({ element }, name) => {
+    Object.keys(events).forEach((name) => {
+      const { element } = events[name];
+
       (element || this.element).removeEventListener(name, this, false);
     });
 
