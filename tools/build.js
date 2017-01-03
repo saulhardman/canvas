@@ -1,6 +1,6 @@
 const fs = require('fs');
 const del = require('del');
-const rollup = require('rollup');
+const { rollup } = require('rollup');
 const babel = require('rollup-plugin-babel');
 const resolve = require('rollup-plugin-node-resolve');
 const replace = require('rollup-plugin-replace');
@@ -21,9 +21,9 @@ promise = promise.then(() => del(['dist/*']));
   { format: 'umd' },
   { format: 'umd', minify: true },
 ].forEach(({ format, minify = false }) => {
-  promise = promise.then(() => rollup.rollup({
+  promise = promise.then(() => rollup({
     entry: 'src/index.js',
-    external: Object.keys(pkg.dependencies),
+    external: (minify) ? [] : Object.keys(pkg.dependencies),
     plugins: [
       replace({
         ENV: JSON.stringify('production'),
