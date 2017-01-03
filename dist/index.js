@@ -5,7 +5,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
 var assign = _interopDefault(require('lodash-es/assign'));
-var forEach = _interopDefault(require('lodash-es/forEach'));
 var isFunction = _interopDefault(require('lodash-es/isFunction'));
 var isNumber = _interopDefault(require('lodash-es/isNumber'));
 
@@ -296,9 +295,9 @@ var canvas = {
   bindEvents: function bindEvents() {
     var _this = this;
 
-    // NOTE: pass all events to handleEvent (special) function
-    forEach(events, function (_ref, name) {
-      var element = _ref.element;
+    Object.keys(events).forEach(function (name) {
+      var element = events[name].element;
+
 
       (element || _this.element).addEventListener(name, _this, false);
     });
@@ -308,8 +307,9 @@ var canvas = {
   unBindEvents: function unBindEvents() {
     var _this2 = this;
 
-    forEach(events, function (_ref2, name) {
-      var element = _ref2.element;
+    Object.keys(events).forEach(function (name) {
+      var element = events[name].element;
+
 
       (element || _this2.element).removeEventListener(name, _this2, false);
     });
@@ -402,25 +402,25 @@ var canvas = {
 
     return this;
   },
-  mousedown: function mousedown(_ref3) {
-    var pageX = _ref3.pageX,
-        pageY = _ref3.pageY;
+  mousedown: function mousedown(_ref) {
+    var pageX = _ref.pageX,
+        pageY = _ref.pageY;
 
     this.pointer.startDragging(pageX, pageY);
 
     return this;
   },
-  mousemove: function mousemove(_ref4) {
-    var pageX = _ref4.pageX,
-        pageY = _ref4.pageY;
+  mousemove: function mousemove(_ref2) {
+    var pageX = _ref2.pageX,
+        pageY = _ref2.pageY;
 
     this.pointer.set(pageX, pageY);
 
     return this;
   },
-  mouseup: function mouseup(_ref5) {
-    var pageX = _ref5.pageX,
-        pageY = _ref5.pageY;
+  mouseup: function mouseup(_ref3) {
+    var pageX = _ref3.pageX,
+        pageY = _ref3.pageY;
 
     this.pointer.stopDragging(pageX, pageY);
 
@@ -444,11 +444,11 @@ var canvas = {
 
     return this;
   },
-  setSize: function setSize(_ref6) {
-    var _ref6$width = _ref6.width,
-        width = _ref6$width === undefined ? this.width : _ref6$width,
-        _ref6$height = _ref6.height,
-        height = _ref6$height === undefined ? this.height : _ref6$height;
+  setSize: function setSize(_ref4) {
+    var _ref4$width = _ref4.width,
+        width = _ref4$width === undefined ? this.width : _ref4$width,
+        _ref4$height = _ref4.height,
+        height = _ref4$height === undefined ? this.height : _ref4$height;
 
     this.width = this.element.width = width;
     this.height = this.element.height = height;
