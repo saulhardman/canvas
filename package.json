@@ -43,15 +43,5 @@
   "bugs": {
     "url": "https://github.com/saulhardman/canvas/issues"
   },
-  "homepage": "https://github.com/saulhardman/canvas#readme",
-  "babel": {
-    "presets": [
-      [
-        "es2015",
-        {
-          "modules": false
-        }
-      ]
-    ]
-  }
+  "homepage": "https://github.com/saulhardman/canvas#readme"
 }

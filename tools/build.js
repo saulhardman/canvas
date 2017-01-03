@@ -28,20 +28,12 @@ promise = promise.then(() => del(['dist/*']));
       replace({
         ENV: JSON.stringify('production'),
       }),
-      babel(Object.assign(pkg.babel, {
-        babelrc: false,
+      babel({
         exclude: 'node_modules/**',
         runtimeHelpers: true,
-        presets: pkg.babel.presets.map((x) => {
-          if (x === 'latest') {
-            return ['latest', { es2015: { modules: false } }];
-          }
-
-          return x;
-        }),
-      })),
-      (minify && uglify()),
+      }),
       (minify && resolve()),
+      (minify && uglify()),
     ],
   }).then((bundle) => bundle.write({
     dest: `dist/${format === 'cjs' ? 'index' : `index.${format}`}${minify ? '.min' : ''}.js`,
@@ -53,7 +45,6 @@ promise = promise.then(() => del(['dist/*']));
 
 // Copy package.json
 promise = promise.then(() => {
-  delete pkg.babel;
   delete pkg.devDependencies;
   delete pkg.private;
   delete pkg.scripts;
