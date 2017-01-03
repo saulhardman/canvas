@@ -269,8 +269,10 @@ const canvas = {
     return this;
   },
   fillScreen() {
-    this.setWidth(window.innerWidth)
-        .setHeight(window.innerHeight);
+    this.setSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
 
     return this;
   },
