@@ -1,12 +1,14 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('lodash-es/assign'), require('lodash-es/isFunction'), require('lodash-es/isNumber')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'lodash-es/assign', 'lodash-es/isFunction', 'lodash-es/isNumber'], factory) :
-  (factory((global.canvas = global.canvas || {}),global.assign,global.isFunction,global.isNumber));
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('lodash-es/assign'), require('lodash-es/isFunction'), require('lodash-es/isNumber')) :
+	typeof define === 'function' && define.amd ? define(['exports', 'lodash-es/assign', 'lodash-es/isFunction', 'lodash-es/isNumber'], factory) :
+	(factory((global.canvas = global.canvas || {}),global.assign,global.isFunction,global.isNumber));
 }(this, (function (exports,assign,isFunction,isNumber) { 'use strict';
 
 assign = 'default' in assign ? assign['default'] : assign;
 isFunction = 'default' in isFunction ? isFunction['default'] : isFunction;
 isNumber = 'default' in isNumber ? isNumber['default'] : isNumber;
+
+var version = "0.1.4-alpha";
 
 var events = {
   resize: {
@@ -469,12 +471,16 @@ var canvas = {
     return this;
   },
   fillScreen: function fillScreen() {
-    this.setWidth(window.innerWidth).setHeight(window.innerHeight);
+    this.setSize({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
 
     return this;
   }
 };
 
+exports.version = version;
 exports.canvas = canvas;
 exports.events = events;
 exports.vector = vector;

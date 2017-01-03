@@ -2,6 +2,8 @@ import assign from 'lodash-es/assign';
 import isFunction from 'lodash-es/isFunction';
 import isNumber from 'lodash-es/isNumber';
 
+var version = "0.1.4-alpha";
+
 var events = {
   resize: {
     handler: 'onResize',
@@ -463,11 +465,14 @@ var canvas = {
     return this;
   },
   fillScreen: function fillScreen() {
-    this.setWidth(window.innerWidth).setHeight(window.innerHeight);
+    this.setSize({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
 
     return this;
   }
 };
 
-export { canvas, events, vector, pointer };
+export { version, canvas, events, vector, pointer };
 //# sourceMappingURL=index.es.js.map

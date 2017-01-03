@@ -8,6 +8,8 @@ var assign = _interopDefault(require('lodash-es/assign'));
 var isFunction = _interopDefault(require('lodash-es/isFunction'));
 var isNumber = _interopDefault(require('lodash-es/isNumber'));
 
+var version = "0.1.4-alpha";
+
 var events = {
   resize: {
     handler: 'onResize',
@@ -469,12 +471,16 @@ var canvas = {
     return this;
   },
   fillScreen: function fillScreen() {
-    this.setWidth(window.innerWidth).setHeight(window.innerHeight);
+    this.setSize({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
 
     return this;
   }
 };
 
+exports.version = version;
 exports.canvas = canvas;
 exports.events = events;
 exports.vector = vector;
