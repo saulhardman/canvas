@@ -18,14 +18,15 @@
     "eslint": "^3.12.2",
     "eslint-config-airbnb-base": "^11.0.0",
     "eslint-plugin-import": "^2.2.0",
-    "raw-loader": "^0.5.1",
+    "html-webpack-plugin": "^2.25.0",
     "rollup": "^0.38.3",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-replace": "^1.1.1",
     "rollup-plugin-uglify": "^1.0.1",
-    "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "title-case": "^2.1.0",
+    "webpack": "^2.2.0-rc.3",
+    "webpack-dev-server": "^2.2.0-rc.0"
   },
   "scripts": {
     "start": "webpack-dev-server --hot --inline",
@@ -45,7 +46,12 @@
   "homepage": "https://github.com/saulhardman/canvas#readme",
   "babel": {
     "presets": [
-      "latest"
+      [
+        "es2015",
+        {
+          "modules": false
+        }
+      ]
     ]
   }
 }

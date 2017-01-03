@@ -1,30 +1,30 @@
 const webpack = require('webpack');
+const WebpackHtmlPlugin = require('html-webpack-plugin');
+const titleCase = require('title-case');
+
+const { name } = require('./package.json');
 
 module.exports = {
   entry: {
     app: ['./src/index.js'],
   },
   output: {
-    filename: 'canvas.js',
-    library: 'canvas',
+    filename: `${name}.js`,
+    library: name,
     libraryTarget: 'umd',
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: 'node_modules/**',
-        loader: 'babel',
-      },
-      {
-        test: /\.html$/,
-        loader: 'raw',
-      },
-    ],
   },
   plugins: [
     new webpack.DefinePlugin({
       ENV: JSON.stringify('development'),
     }),
+    new WebpackHtmlPlugin({
+      name,
+      title: titleCase(name),
+      template: 'index.html',
+      inject: false,
+    }),
   ],
+  performance: {
+    hints: false,
+  },
 };
